@@ -24,12 +24,17 @@ const endereco = args[3] || "Nome da Rua, nº 00";
 const bairro = args[4] || "Bairro";
 const cidade = args[5] || "Cidade/UF";
 const cep = args[6] || "CEP. 00000-000";
-const email = args[7] || "contato@dominio.com.br";
-const telefone = args[8] || "(00) 0000-0000";
-const whatsapp = args[9] || "(00) 9.0000-0000";
-const facebook = args[10] || "https://www.facebook.com/";
-const instagram = args[11] || "https://www.instagram.com/";
-const linkedin = args[12] || "https://www.linkedin.com/";
+const mapaLink = args[7] || "https://maps.app.goo.gl/5gF94fPtCJJj9DR68";
+const mapa = args[8] || '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.4995075802503!2d-49.6248452891247!3d-22.89493983736129!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94c06a39daf95555%3A0x4243758b396d07a2!2sSitecontabil!5e0!3m2!1spt-BR!2sbr!4v1728559990162!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
+const email = args[9] || "contato@dominio.com.br";
+const telefone = args[10] || "(00) 0000-0000";
+const whatsapp = args[11] || "(00) 9.0000-0000";
+const facebook = args[12] || "https://www.facebook.com/";
+const instagram = args[13] || "https://www.instagram.com/";
+const linkedin = args[14] || "https://www.linkedin.com/";
+
+const cor1 = args[15] || "#007381;"
+const cor2 = args[16] || "#8a8c4f"
 
 const fileContents = {
     "header.php": `<!DOCTYPE html>
@@ -107,8 +112,8 @@ $endereco = "${endereco}";
 $bairro = "${bairro}";
 $cidade = "${cidade}";
 $cep = "${cep}";
-$mapa_link = "https://maps.app.goo.gl/5gF94fPtCJJj9DR68";
-$mapa_iframe = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.4995075802503!2d-49.6248452891247!3d-22.89493983736129!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94c06a39daf95555%3A0x4243758b396d07a2!2sSitecontabil!5e0!3m2!1spt-BR!2sbr!4v1728559990162!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
+$mapa_link = "${mapaLink}";
+$mapa_iframe = '${mapa}';
 $email = "${email}";
 $telefone = "${telefone}";
 $whatsapp = "${whatsapp}";
@@ -258,8 +263,8 @@ $fontFamily: "Roboto", sans-serif;
 $poppins: "Poppins", sans-serif;
 
 // COLORS
-$primary:     #007381; 
-$secondary:   #8a8c4f;
+$primary:     ${cor1}; 
+$secondary:   ${cor2};
 
 
 // SPACERS ARRAY --------------------
