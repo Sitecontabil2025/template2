@@ -30,9 +30,8 @@ const whatsapp = args[9] || "(00) 9.0000-0000";
 const facebook = args[10] || "https://www.facebook.com/";
 const instagram = args[11] || "https://www.instagram.com/";
 const linkedin = args[12] || "https://www.linkedin.com/";
-
-const cor1 = args[13] || "#007381;"
-const cor2 = args[14] || "#8a8c4f"
+const cor1 = args[13] || "#007381;";
+const cor2 = args[14] || "#8a8c4f";
 
 const fileContents = {
     "header.php": `<!DOCTYPE html>
@@ -138,9 +137,9 @@ function phone_link($phone)
 }
 
 // LINKS DAS REDES SOCIAIS
-$facebook = "https://www.facebook.com/";
-$instagram = "https://www.instagram.com/";
-$linkedin = "https://www.linkedin.com/";
+$facebook = "${facebook}";
+$instagram = "${instagram}";
+$linkedin = "${linkedin}";
 
 // ANO DESENVOLVIMENTO DO SITE
 function ano_copy($ano = 2025)
