@@ -67,7 +67,6 @@ const fileContents = {
     <meta name="resource-type" content="website" />
 
     <!-- ARQUIVOS CSS -->
-    <link rel="stylesheet" href="assets/css/jquery-confirm.min.css">
     <link rel="stylesheet" href="assets/css/aos.css">
     <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
     <link rel="stylesheet" href="assets/css/style.min.css?v=<?= time() ?>">
@@ -84,7 +83,7 @@ const fileContents = {
 <?php include 'footer.php'; ?>`,
 
     "footer.php":
-        `<a id="whatsapp" class="btn-whatsapp" href="<?= whatsapp('Estou entrando em contato pelo site!') ?>" target="_blank">
+        `<a id="whatsapp" class="btn-whatsapp shadow" href="<?= whatsapp('Estou entrando em contato pelo site!') ?>" target="_blank">
     <i class="fab fa-whatsapp"></i>
 </a>
 
@@ -93,8 +92,7 @@ const fileContents = {
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/swiper-bundle.min.js"></script>
 <script src="assets/js/aos.js"></script>
-<script src="assets/js/jquery.mask.min.js"></script>
-<script src="assets/js/jquery-confirm.min.js"></script>
+<script src="assets/js/sweetalert2.all.min.js"></script>
 <script src="assets/js/script.min.js"></script>
 
 </body>
@@ -486,7 +484,7 @@ a {
     text-decoration: none !important;
     transition: all ease .7s !important;
     &:hover {
-        color: $primary;
+        color: var(--bs-primary);
     }
 }
 
@@ -525,6 +523,9 @@ button {
         bottom: 10px;
         right: 10px;
         z-index: 1000;
+        &:hover{
+            color: var(--bs-white);
+        }
     }
 }
 `
@@ -546,82 +547,70 @@ function copyFile(src, dest) {
 
 const scriptJsPath = path.join(projectRoot, "assets/js", "script.js");
 
-const scriptJsContent = `$(document).ready(function () {
-    var SPMaskBehavior = function (val) {
-        return val.replace(/\\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
-    },
-        spOptions = {
-            onKeyPress: function (val, e, field, options) {
-                field.mask(SPMaskBehavior.apply({}, arguments), options);
-            }
-        };
-    $('.celular-mask').mask(SPMaskBehavior, spOptions);
-});
-
-$loading = $.dialog({
-    content: "Enviando sua mensagem",
-    title: false,
-    type: "green",
-    theme: "modern",
-    lazyOpen: true,
-    closeIcon: false,
-    icon: "fas fa-circle-notch fa-spin",
-    buttons: false,
-});
-
-$('#formcontato').on('submit', function (e) {
-    e.preventDefault();
-    var dados = $(this).serialize();
-
-    $.ajax({
-        type: "POST",
-        url: "enviar.php",
-        data: dados,
-        dataType: 'json',
-        beforeSend: function () {
-            $loading.open();
-        },
-        success: function (resposta) {
-            if (resposta.tipo == "green") {
-                $icone = "far fa-check-circle";
+const scriptJsContent = `document.addEventListener("DOMContentLoaded", function () {
+    // Máscara para celular
+    const masks = document.querySelectorAll('.celular-mask');
+    masks.forEach(input => {
+        input.addEventListener('input', function () {
+            let value = this.value.replace(/\D/g, '');
+            if (value.length <= 10) {
+                this.value = value.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
             } else {
-                $icone = "fas fa-times";
+                this.value = value.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
             }
-            $.alert({
-                content: resposta.mensagem,
-                title: false,
-                type: resposta.tipo,
-                theme: "modern",
-                closeIcon: false,
-                icon: $icone,
-                buttons: {
-                    ok: function (okButton) {
-                        if (resposta.tipo == "green") {
-                            location.href = "https://dominiocliente.com.br"
-                        }
-                    }
-                }
-            });
-        },
-        error: function (resposta) {
-            $.alert({
-                content: "Um erro desconhecido aconteceu e sua mensagem não pode ser enviada",
-                title: false,
-                type: "red",
-                theme: "modern",
-                closeIcon: true,
-                icon: "fas fa-times",
-                buttons: {
-                    ok: function () {
-                    }
-                }
-            });
-        },
-        complete: function () {
-            $loading.close()
-        }
+        });
     });
-    return false;
+
+    // Loading customizado com SweetAlert2
+    const loading = Swal.mixin({
+        title: 'Enviando sua mensagem...',
+        didOpen: () => Swal.showLoading(),
+        allowOutsideClick: false,
+        showConfirmButton: false
+    });
+
+    const form = document.querySelector('#formcontato');
+    if (!form) return;
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const dados = new FormData(form);
+
+        loading.fire(); // Abre o loading
+
+        fetch('enviar.php', {
+            method: 'POST',
+            body: dados
+        })
+            .then(res => res.json())
+            .then(resposta => {
+                Swal.close(); // Fecha o loading
+
+                let icon = 'error';
+                if (resposta.tipo === 'green') icon = 'success';
+                if (resposta.tipo === 'orange') icon = 'warning';
+
+                Swal.fire({
+                    icon: icon,
+                    html: resposta.mensagem,
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#007381'
+                }).then(result => {
+                    if (resposta.tipo === 'green') {
+                        window.location.href = "https://${dominio}";
+                    }
+                });
+            })
+            .catch(() => {
+                Swal.close();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro!',
+                    text: 'Um erro desconhecido aconteceu e sua mensagem não pode ser enviada.'
+                });
+            });
+    });
 });
 `;
 
