@@ -627,9 +627,7 @@ const assets = [
     { src: "node_modules/swiper/swiper-bundle.min.js", dest: "assets/js/swiper-bundle.min.js" },
     { src: "node_modules/aos/dist/aos.css", dest: "assets/css/aos.css" },
     { src: "node_modules/aos/dist/aos.js", dest: "assets/js/aos.js" },
-    { src: "node_modules/jquery-confirm/dist/jquery-confirm.min.js", dest: "assets/js/jquery-confirm.min.js" },
-    { src: "node_modules/jquery-confirm/dist/jquery-confirm.min.css", dest: "assets/css/jquery-confirm.min.css" },
-    { src: "node_modules/jquery-mask-plugin/dist/jquery.mask.min.js", dest: "assets/js/jquery.mask.min.js" },
+    { src: "node_modules/sweetalert2/dist/sweetalert2.all.min.js", dest: "assets/js/sweetalert2.all.min.js" },
     { src: "node_modules/cookie/cookie.min.js", dest: "assets/js/cookie.min.js" }
 ];
 
