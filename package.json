@@ -5,6 +5,7 @@
     "jquery": "^3.7.1",
     "sweetalert2": "^11.14.4",
     "swiper": "^11.2.4",
-    "cookie": "https://sistema.sitecontabil.com.br/base/cookie-1.0.0.tgz"
+    "cookie": "https://sistema.sitecontabil.com.br/base/cookie-1.0.0.tgz",
+    "phpmailer": "https://sistema.sitecontabil.com.br/base/phpmailer.tgz"
   }
 }
